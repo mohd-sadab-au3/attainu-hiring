@@ -31,10 +31,13 @@ mongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true }, as
    console.log("connected");
 
    const val = await db.collection('state').find({}).toArray();
-   console.log("val ", val);
+   // console.log("val ", val);
    if (!val.length) {
       db.collection('state').insertMany(details);
       console.log("done");
+   }
+   else {
+      console.log("data is already inserted in the database I can perform delete also but i think this is better approach not to delete ");
    }
 })
 
