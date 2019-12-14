@@ -15,6 +15,7 @@ const app = express();
 
 app.use(express.json({ extended: false }));
 app.use(express.urlencoded({ extended: false }));
+app.use(express.static(__dirname + '/public'));
 
 
 //@route get
@@ -32,6 +33,12 @@ app.get("/showAllCities/:alpha", async (req, res) => {
 
 })
 
+app.get('/findFrequentState', (req, res) => {
+
+    console.log('/findFrequentState');
+    res.sendFile(__dirname + '/public/index.html');
+})
+
 //@route get
 //@description getting the state of the city
 app.get("/state/:city", async (req, res) => {
@@ -39,7 +46,10 @@ app.get("/state/:city", async (req, res) => {
     console.log(req.params.city)
     const result = await db.collection('state').findOne({ cities: req.params.city });
 
-    res.json(result.state);
+    if (result)
+        res.json(result.state);
+    else
+        res.json('');
 })
 
 //@route put
